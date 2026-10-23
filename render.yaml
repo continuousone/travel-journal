@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: travel-journal
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: MONGODB_URI
+        sync: false   # you'll paste your Atlas connection string when creating the service
+      - key: ADMIN_KEY
+        generateValue: true

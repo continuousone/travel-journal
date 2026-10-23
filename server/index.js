@@ -5,6 +5,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { connectDB, seedIfEmpty } from "./db.js"
 import entriesRouter from "./routes/entries.js"
+import adminRouter from "./routes/admin.js"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const distDir = path.join(__dirname, "..", "dist")
@@ -18,6 +19,7 @@ app.get("/api/health", (req, res) => {
 })
 
 app.use("/api/entries", entriesRouter)
+app.use("/api/admin", adminRouter)
 
 app.use("/api", (req, res) => {
     res.status(404).json({ error: "Not found" })

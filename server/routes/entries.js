@@ -1,21 +1,9 @@
 import { Router } from "express"
 import mongoose from "mongoose"
 import Entry from "../models/Entry.js"
+import requireAdmin from "../middleware/requireAdmin.js"
 
 const router = Router()
-
-// Writes (create / update / delete) require the ADMIN_KEY in an
-// `x-admin-key` header, so visitors to the public site can only read.
-function requireAdmin(req, res, next) {
-    const key = process.env.ADMIN_KEY
-    if (!key) {
-        return res.status(403).json({ error: "Writes are disabled: ADMIN_KEY is not set on the server" })
-    }
-    if (req.get("x-admin-key") !== key) {
-        return res.status(401).json({ error: "Missing or invalid x-admin-key header" })
-    }
-    next()
-}
 
 function validId(req, res, next) {
     if (!mongoose.isValidObjectId(req.params.id)) {
